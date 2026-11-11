@@ -12,6 +12,180 @@ const ICONS = {
 
 const DEFAULT_CATS = Object.keys(ICONS);
 
+const ALLOCATION_ACTIVITIES = [
+  {
+    name: "Atividade de Campo / Visita Técnica",
+    description: "Atividades destinadas ao planejamento, mobilização, execução e gestão das atividades de campo, incluindo logística, materiais, equipamentos, serviços, equipes e recursos, com acompanhamento do cronograma, da qualidade, das ocorrências e dos ajustes necessários.",
+    tasks: [
+      { name: "Execução dos campos", aliases: ["execução de campo", "trabalho de campo", "atividade de campo", "visita técnica"] },
+      { name: "Gestão das atividades de Campo", aliases: ["gestão de campo", "gerenciar campo", "acompanhamento de campo"] },
+      { name: "Preparação – Logística, Compras e Auxiliares de Campo", aliases: ["logística de campo", "compras para campo", "auxiliares de campo", "preparação de campo", "mobilização de campo"] }
+    ]
+  },
+  {
+    name: "Atividade Global",
+    description: "Atividades de caráter corporativo e interno, não vinculadas diretamente à execução de projetos específicos, incluindo rotinas administrativas, desenvolvimento de negócios e sistemas, propostas e orçamentos, gestão de pessoas, planejamento interno, inovação, qualidade, ações de SSO/SSMA e treinamentos.",
+    tasks: [
+      { name: "Administrativo Interno", aliases: ["administrativo", "rotinas administrativas", "atividade administrativa"] },
+      { name: "Desenvolvimento de Negócios / Comercial", aliases: ["comercial", "desenvolvimento comercial", "novos negócios"] },
+      { name: "Desenvolvimento de Sistemas", aliases: ["sistemas", "desenvolvimento de sistema"] },
+      { name: "Disponibilidade / Sem Alocação", aliases: ["disponibilidade", "sem alocação", "sem alocacao em projeto"] },
+      { name: "Gestão de Pessoas", aliases: ["recursos humanos", "rh", "gestão de equipe"] },
+      { name: "Gestão e Planejamento Interno", aliases: ["planejamento interno", "gestão interna"] },
+      { name: "Indisponível", aliases: ["feriado", "sábado com horas compensadas", "sabado com horas compensadas", "sabado compensado", "horas compensadas"] },
+      { name: "Inovação e Desenvolvimento Técnico", aliases: ["inovação", "inovacao", "desenvolvimento técnico interno"] },
+      { name: "Propostas e Orçamentos", aliases: ["proposta", "propostas", "orçamento", "orcamento", "elaboração de orçamento"] },
+      { name: "Qualidade, Processos e Melhoria Contínua", aliases: ["qualidade interna", "processos", "melhoria contínua", "melhoria continua"] },
+      { name: "SSO / SSMA Interno", aliases: ["sso interno", "ssma interno", "segurança do trabalho interno"] },
+      { name: "Treinamento e Desenvolvimento", aliases: ["treinamento", "desenvolvimento de pessoas", "pitstop técnico", "pitstop tecnico", "pit stop técnico", "pit stop tecnico", "pitstop", "pit stop"] }
+    ]
+  },
+  {
+    name: "Entrega – Embalar o Produto",
+    description: "Atividades destinadas à preparação e finalização dos produtos para entrega, incluindo formatação e padronização de documentos, produção de elementos gráficos e atendimento aos comentários, com revisão, correção e atualização dos arquivos.",
+    tasks: [
+      { name: "Atendimento de Comentários – Retrabalho", aliases: ["atendimento de comentários", "atendimento de comentarios", "retrabalho", "ajustes solicitados", "correção de comentários"] },
+      { name: "Computação Gráfica", aliases: ["computação gráfica", "computacao grafica", "artes gráficas", "artes graficas", "elementos gráficos", "elementos graficos"] },
+      { name: "Editoração", aliases: ["diagramação", "diagramacao", "formatação de documentos", "formatacao de documentos", "editoração de documentos"] }
+    ]
+  },
+  {
+    name: "Gestão / Coordenação do Projeto",
+    description: "Atividades destinadas ao planejamento, coordenação e controle do projeto, abrangendo estratégias e responsabilidades, contratações e gestão de terceiros, acompanhamento de prazos, custos e riscos, requisitos de SSMA, alinhamento com as partes interessadas e realização de reuniões e workshops.",
+    tasks: [
+      { name: "Contratações de Terceiros", aliases: ["contratação de terceiros", "contratacao de terceiros", "fornecedores", "contratação de fornecedor"] },
+      { name: "Gerenciamento e Planejamento do Projeto", aliases: ["gerenciamento do projeto", "planejamento do projeto", "gestão do projeto", "gestao do projeto"] },
+      { name: "Planejamento & Controle", aliases: ["planejamento e controle", "controle do projeto", "controle de prazos", "controle de custos"] },
+      { name: "Reuniões Externas", aliases: ["reunião externa", "reuniao externa", "reunião com cliente", "reuniao com cliente", "reunião com parceiros"] },
+      { name: "Reuniões Internas", aliases: ["reunião interna", "reuniao interna", "alinhamento interno", "reunião de equipe"] },
+      { name: "SSMA / SSO", aliases: ["ssma", "sso", "segurança saúde meio ambiente", "segurança do trabalho no projeto"] },
+      { name: "Workshop", aliases: ["workshop", "oficina de trabalho"] }
+    ]
+  },
+  {
+    name: "Produção Técnica",
+    description: "Atividades destinadas à execução e controle de qualidade das atividades técnicas do projeto, incluindo pesquisa, tratamento e análise de dados, estudos, modelagens, desenvolvimento de soluções e produtos, elaboração e revisão de documentos e produção de informações geoespaciais.",
+    tasks: [
+      { name: "Elaboração de Relatórios / Produtos / Análise / Desenvolvimento Técnico", aliases: ["relatório", "relatorios", "relatório técnico", "relatorio tecnico", "elaboração de relatório", "elaboracao de relatorio", "análise técnica", "analise tecnica", "desenvolvimento técnico", "desenvolvimento de produto", "estudos"] },
+      { name: "Geoprocessamento", aliases: ["geoprocessamento", "mapas", "mapeamento", "informações geoespaciais", "informacoes geoespaciais", "dados geográficos", "dados geograficos"] },
+      { name: "Revisão / Controle de Qualidade", aliases: ["revisão", "revisao", "revisão de documento", "revisao de documento", "controle de qualidade", "revisão técnica", "revisao tecnica"] }
+    ]
+  }
+];
+
+const normalizeAllocation = value => String(value ?? '')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase().replace(/[–—-]/g, ' ')
+  .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+  .replace(/\s+/g, ' ').trim();
+
+function renderAllocation() {
+  const input = $('allocation-search');
+  if (!input) return;
+  const query = normalizeAllocation(input.value);
+  const root = $('allocation-results');
+  const status = $('allocation-status');
+  root.replaceChildren();
+
+  const makeCard = (activity, tasks, allTasks = false) => {
+    const card = document.createElement('article');
+    card.className = 'allocation-card';
+
+    const top = document.createElement('div');
+    top.className = 'allocation-card-top';
+    const kicker = document.createElement('div');
+    kicker.className = 'allocation-kicker';
+    kicker.textContent = 'Atividade principal';
+    top.append(kicker);
+
+    if (!allTasks) {
+      const tag = document.createElement('span');
+      tag.className = 'allocation-match-tag';
+      tag.textContent = 'Correspondência encontrada';
+      top.append(tag);
+    }
+
+    const title = document.createElement('h3');
+    title.textContent = activity.name;
+    const description = document.createElement('p');
+    description.className = 'allocation-description';
+    description.textContent = activity.description;
+
+    const heading = document.createElement('div');
+    heading.className = 'allocation-task-heading';
+    heading.textContent = allTasks ? 'TAREFAS DISPONÍVEIS' : 'TAREFA(S) PARA ALOCAÇÃO';
+
+    const list = document.createElement('div');
+    list.className = 'allocation-task-list';
+
+    tasks.forEach(task => {
+      const row = document.createElement('div');
+      row.className = 'allocation-task' + (allTasks ? '' : ' is-match');
+      const check = document.createElement('span');
+      check.className = 'check';
+      check.textContent = '✓';
+      const label = document.createElement('span');
+      label.textContent = task.name;
+      row.append(check, label);
+      list.append(row);
+    });
+
+    card.append(top, title, description, heading, list);
+    return card;
+  };
+
+  if (!query) {
+    status.textContent = 'Todas as categorias · Ordem alfabética';
+    ALLOCATION_ACTIVITIES.forEach(activity => {
+      root.append(makeCard(activity, activity.tasks, true));
+    });
+    return;
+  }
+
+  const matches = [];
+  ALLOCATION_ACTIVITIES.forEach(activity => {
+    const categoryMatch = normalizeAllocation(activity.name).includes(query);
+    const descriptionMatch = normalizeAllocation(activity.description).includes(query);
+    const matchedTasks = activity.tasks.filter(task =>
+      normalizeAllocation(task.name).includes(query) ||
+      task.aliases.some(alias => normalizeAllocation(alias).includes(query))
+    );
+
+    if (categoryMatch || descriptionMatch) {
+      matches.push({ activity, tasks: activity.tasks });
+    } else if (matchedTasks.length) {
+      matches.push({ activity, tasks: matchedTasks });
+    }
+  });
+
+  if (!matches.length) {
+    status.textContent = 'Nenhuma correspondência encontrada';
+    const empty = document.createElement('div');
+    empty.className = 'allocation-empty';
+    const strong = document.createElement('strong');
+    strong.textContent = 'Não encontramos essa atividade.';
+    const p = document.createElement('p');
+    p.textContent = 'Tente outra palavra-chave ou valide a classificação com o responsável pelo projeto.';
+    empty.append(strong, p);
+    root.append(empty);
+    return;
+  }
+
+  status.textContent = `${matches.length} categoria(s) encontrada(s)`;
+  matches.forEach(match => root.append(makeCard(match.activity, match.tasks)));
+}
+
+function showAllocationGuide() {
+  $('home').hidden = true;
+  $('detail').hidden = true;
+  $('gmmb-guide').hidden = true;
+  $('allocation-guide').hidden = false;
+  setActiveTab('alocacao');
+  renderAllocation();
+  window.scrollTo(0, 0);
+}
+
+
 let records = [];
 let category = 'Todas';
 let term = '';
@@ -258,6 +432,7 @@ function openQuestion(id) {
   $('notice').hidden = true;
   $('home').hidden = true;
   $('gmmb-guide').hidden = true;
+  $('allocation-guide').hidden = true;
   $('detail').hidden = false;
   setActiveTab('faq');
 
@@ -310,6 +485,7 @@ function openQuestion(id) {
 function setActiveTab(tab) {
   $('tab-faq').classList.toggle('active', tab === 'faq');
   $('tab-gmmb').classList.toggle('active', tab === 'gmmb');
+  $('tab-alocacao').classList.toggle('active', tab === 'alocacao');
   document.body.classList.toggle('gmmb-active', tab === 'gmmb');
 }
 
@@ -317,6 +493,7 @@ function showHome() {
   $('home').hidden = false;
   $('detail').hidden = true;
   $('gmmb-guide').hidden = true;
+  $('allocation-guide').hidden = true;
   setActiveTab('faq');
 }
 
@@ -324,6 +501,7 @@ function showGmmbGuide() {
   $('home').hidden = true;
   $('detail').hidden = true;
   $('gmmb-guide').hidden = false;
+  $('allocation-guide').hidden = true;
   setActiveTab('gmmb');
   window.scrollTo(0, 0);
 }
@@ -333,6 +511,11 @@ function route() {
 
   if (hash === '#gmmb') {
     showGmmbGuide();
+    return;
+  }
+
+  if (hash === '#alocacao') {
+    showAllocationGuide();
     return;
   }
 
@@ -611,5 +794,10 @@ window.addEventListener('keydown', e => {
     $('search').focus();
   }
 });
+
+const allocationSearch = $('allocation-search');
+if (allocationSearch) {
+  allocationSearch.addEventListener('input', renderAllocation);
+}
 
 init();
