@@ -205,3 +205,19 @@ body.gmmb-active .search,body.gmmb-active .hero-foot{display:none}
 .allocation-note{border-top:1px solid var(--line);margin-top:25px;padding-top:17px;color:#64748b;font-size:12px;line-height:1.65}
 @media(max-width:800px){.allocation-card{padding:16px}.navright{flex-wrap:wrap}}
 @media(max-width:500px){.allocation-search input{font-size:13px}.allocation-guide .guide-heading h2{font-size:25px}}
+
+/* Consulta de alocação: lista de atividades selecionáveis */
+.allocation-activity-list{display:grid;gap:8px}
+.allocation-activity-button{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 17px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.allocation-activity-button:hover{border-color:#9eb4d0;background:#f8fafd}
+.allocation-activity-button.selected{border-color:#52729d;background:#edf3fa}
+.allocation-activity-name{font-size:14px;font-weight:700;line-height:1.45}
+.allocation-activity-hint{flex:0 0 auto;color:#52729d;font-size:11px;font-weight:700}
+.allocation-detail{margin-top:16px;background:#fff;border:1px solid #b9cbe0;border-left:4px solid #52729d;border-radius:12px;padding:20px}
+.allocation-detail-label{font-size:10px;letter-spacing:1.1px;font-weight:800;color:#52729d;margin-bottom:8px}
+.allocation-detail h3{font-size:18px;margin:0 0 13px}
+.allocation-path{display:flex;align-items:center;flex-wrap:wrap;gap:9px;background:#f3f6fa;border-radius:9px;padding:13px;font-size:13px;line-height:1.5}
+.allocation-path-arrow{color:#52729d;font-weight:800}
+.allocation-path strong{color:#234d88}
+.allocation-detail p{font-size:12px;line-height:1.65;color:#64748b;margin:13px 0 0}
+@media(max-width:500px){.allocation-activity-button{padding:13px}.allocation-activity-name{font-size:13px}.allocation-activity-hint{font-size:10px}.allocation-detail{padding:16px}}
