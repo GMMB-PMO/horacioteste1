@@ -1,316 +1,273 @@
 
-// Base de consulta de alocação do Horácio.
-const ALLOCATION_ACTIVITIES = [
-  {
-    name: "Atividade de Campo / Visita Técnica",
-    description: "Atividades destinadas ao planejamento, mobilização, execução e gestão das atividades de campo.",
-    tasks: [
-      { name: "Execução dos campos", aliases: ["trabalho de campo", "execução de campo", "visita técnica"] },
-      { name: "Gestão das atividades de Campo", aliases: ["gestão de campo", "acompanhamento de campo"] },
-      { name: "Preparação – Logística, Compras e Auxiliares de Campo", aliases: ["logística de campo", "compras para campo", "auxiliares de campo", "preparação de campo", "mobilização de campo"] }
-    ]
-  },
-  {
-    name: "Atividade Global",
-    description: "Atividades de caráter corporativo e interno, não vinculadas diretamente à execução de projetos específicos.",
-    tasks: [
-      { name: "Administrativo Interno", aliases: ["administrativo", "rotinas administrativas"] },
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Horácio - Guia de Orientações">
+  <title>Horácio | Guia de Orientações</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-      {
-        name: "Café dos Aniversariantes",
-        allocation: "SSO / SSMA Interno",
-        aliases: ["café aniversariantes"]
-      },
+<body>
 
-      { name: "Desenvolvimento de Negócios / Comercial", aliases: ["comercial", "desenvolvimento comercial", "novos negócios"] },
-      { name: "Desenvolvimento de Sistemas", aliases: ["sistemas", "desenvolvimento de sistema"] },
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="#inicio">
+        <span class="brandmark">?</span>
+        <span>Horácio</span>
+      </a>
 
-      {
-        name: "Disponibilidade / Sem Alocação",
-        aliases: ["ociosidade", "disponibilidade", "sem alocação"]
-      },
+      <nav class="navright" aria-label="Navegação principal">
+        <a class="navtab active" href="#inicio" id="tab-faq">Perguntas frequentes</a>
+        <a class="navtab" href="#gmmb" id="tab-gmmb">Horácio da GMMB</a>
+        <a class="navtab" href="#alocacao" id="tab-alocacao">Consulta de Alocação</a>
+        <span class="status">● Consulta</span>
+      </nav>
+    </div>
+  </header>
 
-      { name: "Gestão de Pessoas", aliases: ["recursos humanos", "rh"] },
+  <main id="inicio">
 
-      {
-        name: "Gestão e Planejamento Interno",
-        aliases: [
-          "reunião interna",
-          "reunião de equipe",
-          "reunião da gerência"
-        ]
-      },
+    <section class="hero">
+      <div class="wrap">
 
-      {
-        name: "Indisponível",
-        aliases: [
-          "consulta médica",
-          "dentista",
-          "exames médicos",
-          "atestado",
-          "férias",
-          "folga",
-          "feriado",
-          "sábado compensado",
-          "compromisso pessoal",
-          "ausência"
-        ]
-      },
+        <div class="eyebrow">HORÁCIO - GUIA DE ORIENTAÇÕES</div>
 
-      { name: "Inovação e Desenvolvimento Técnico", aliases: ["inovação", "desenvolvimento técnico interno"] },
+        <h1>Como podemos ajudar?</h1>
 
-      {
-        name: "Propostas e Orçamentos",
-        aliases: [
-          "proposta comercial",
-          "orçamento",
-          "cotação",
-          "elaboração de proposta",
-          "precificação"
-        ]
-      },
+        <p>
+          Procedimentos, regras e respostas rápidas para uso da plataforma.
+        </p>
 
-      { name: "Qualidade, Processos e Melhoria Contínua", aliases: ["qualidade interna", "processos", "melhoria contínua"] },
+        <p>
+          <a
+            href="https://horacio.inteligenciadadosamplo.com.br/entries"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="color:#fff;text-decoration:underline;font-weight:600;"
+          >
+            Acessar plataforma
+          </a>
+        </p>
 
-      {
-        name: "SSO / SSMA Interno",
-        aliases: [
-          "sso interno",
-          "ssma interno",
-          "segurança do trabalho interno",
-          "treinamento de segurança",
-          "reunião paradão de segurança",
-          "paradão de segurança"
-        ]
-      },
+        <div class="search">
+          <span aria-hidden="true">⌕</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="Pesquise por uma dúvida, sistema ou palavra-chave..."
+            aria-label="Pesquisar dúvidas"
+            autocomplete="off"
+          >
+          <kbd>/</kbd>
+        </div>
 
-      {
-        name: "Treinamento e Desenvolvimento",
-        aliases: [
-          "treinamento",
-          "curso",
-          "capacitação",
-          "palestra",
-          "workshop interno"
-        ]
-      }
-    ]
-  },
-  {
-    name: "Entrega – Embalar o Produto",
-    description: "Atividades destinadas à preparação e finalização dos produtos para entrega.",
-    tasks: [
-      { name: "Atendimento de Comentários – Retrabalho", aliases: [] },
-      { name: "Computação Gráfica", aliases: ["computação gráfica", "artes gráficas", "elementos gráficos"] },
-      { name: "Editoração", aliases: ["diagramação", "formatação de documentos"] }
-    ]
-  },
-  {
-    name: "Gestão / Coordenação do Projeto",
-    description: "Atividades destinadas ao planejamento, coordenação e controle do projeto.",
-    tasks: [
-      { name: "Contratações de Terceiros", aliases: ["contratação de terceiros", "fornecedores"] },
-      { name: "Gerenciamento e Planejamento do Projeto", aliases: ["gerenciamento do projeto", "planejamento do projeto", "gestão do projeto"] },
-      { name: "Planejamento & Controle", aliases: ["planejamento e controle", "controle do projeto", "controle de prazos", "controle de custos"] },
-      {
-        name: "Reuniões Externas",
-        aliases: ["reunião com cliente"]
-      },
-      { name: "Reuniões Internas", aliases: ["reunião interna", "alinhamento interno"] },
-      { name: "SSMA / SSO", aliases: ["ssma", "sso"] },
-      { name: "Workshop", aliases: ["oficina de trabalho"] }
-    ]
-  },
-  {
-    name: "Produção Técnica",
-    description: "Atividades destinadas à execução e controle de qualidade das atividades técnicas do projeto.",
-    tasks: [
-      { name: "Elaboração de Relatórios / Produtos / Análise / Desenvolvimento Técnico", aliases: ["relatório", "relatório técnico", "elaboração de relatório", "análise técnica", "desenvolvimento técnico", "estudos"] },
-      { name: "Geoprocessamento", aliases: ["mapas", "mapeamento", "informações geoespaciais", "dados geográficos"] },
-      { name: "Revisão / Controle de Qualidade", aliases: ["revisão", "revisão de documento", "controle de qualidade", "revisão técnica"] }
-    ]
-  }
-];
+        <div class="hero-foot">
+          <span id="count"></span>
+        </div>
 
-// Normaliza os termos para ignorar acentos, pontuação e diferenças de maiúsculas.
-function normalizeAllocation(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[–—-]/g, " ")
-    .replace(/[^\w\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+      </div>
+    </section>
 
-const allocationCollator = new Intl.Collator("pt-BR", {
-  sensitivity: "base"
-});
+    <div class="wrap content">
 
-// Verifica se todos os termos digitados estão presentes no conteúdo.
-function allocationMatches(value, query) {
-  const content = normalizeAllocation(value);
-  const words = normalizeAllocation(query).split(/\s+/).filter(Boolean);
+      <div id="notice" role="status" class="notice" hidden></div>
 
-  return words.every(word => content.includes(word));
-}
+      <div id="home">
 
-// Exibe a alocação selecionada.
-function showAllocationDetail(match, button, list, detail) {
-  list.querySelectorAll(".allocation-activity-button").forEach(item => {
-    item.classList.remove("selected");
-    item.setAttribute("aria-expanded", "false");
-  });
+        <div class="sectionhead">
+          <div>
+            <div class="eyebrow dark">ENCONTRE POR ASSUNTO</div>
+            <h2>Explore as categorias</h2>
+          </div>
 
-  if (button) {
-    button.classList.add("selected");
-    button.setAttribute("aria-expanded", "true");
-  }
+          <button class="textbutton" id="all">
+            Ver todas as dúvidas →
+          </button>
+        </div>
 
-  detail.replaceChildren();
+        <div id="categories" class="categories"></div>
 
-  const label = document.createElement("div");
-  label.className = "allocation-detail-label";
-  label.textContent = "ALOCAÇÃO CORRETA";
+        <div class="sectionhead questionshead" id="perguntas">
+          <div>
+            <div class="eyebrow dark">RESPOSTAS RÁPIDAS</div>
+            <h2 id="listtitle">Perguntas frequentes</h2>
+          </div>
 
-  const title = document.createElement("h3");
-  title.textContent = match.displayName;
+          <span id="resultcount" class="small"></span>
+        </div>
 
-  const path = document.createElement("div");
-  path.className = "allocation-path";
+        <div class="columns">
 
-  const category = document.createElement("span");
-  category.textContent = match.activity.name;
+          <aside>
+            <h3>Filtrar por categoria</h3>
+            <div id="filters"></div>
+          </aside>
 
-  const arrow = document.createElement("span");
-  arrow.className = "allocation-path-arrow";
-  arrow.textContent = "→";
+          <div
+            class="questions"
+            id="questions"
+            aria-live="polite"
+          ></div>
 
-  const destination = document.createElement("strong");
-  destination.textContent = match.task.allocation || match.task.name;
+        </div>
+      </div>
 
-  path.append(category, arrow, destination);
 
-  const description = document.createElement("p");
-  description.textContent = match.activity.description;
 
-  detail.append(label, title, path, description);
-  detail.hidden = false;
+      <section id="gmmb-guide" class="gmmb-guide" hidden>
+        <div class="guide-heading">
+          <div class="eyebrow dark">ORIENTAÇÕES DA GERÊNCIA</div>
+          <h2>Horácio da GMMB</h2>
+          <p>Esta seção reúne orientações específicas para a utilização do Horácio no âmbito da Gerência de Monitoramento de Meio Biótico (GMMB), considerando os alinhamentos e esclarecimentos compartilhados no grupo GMMB_Horácio.</p>
+          <p>O objetivo é centralizar os procedimentos adotados pela gerência, padronizar entendimentos e facilitar a consulta dos colaboradores sobre os lançamentos de horas e a utilização da plataforma.</p>
+        </div>
 
-  detail.scrollIntoView({
-    behavior: "smooth",
-    block: "nearest"
-  });
-}
+        <article class="guide-content">
+          <section class="guide-section">
+            <h3>1. Lançamento de horas</h3>
+            <p>Todos os colaboradores da GMMB, incluindo estagiários, devem registrar no Horácio as horas efetivamente trabalhadas em projetos.</p>
+            <p>Os lançamentos devem contemplar tanto as horas regulares quanto as horas extras, independentemente de haver compensação ou saldo no Banco de Horas.</p>
+            <p>O registro deve refletir as atividades efetivamente realizadas, respeitando as opções disponíveis na plataforma.</p>
+          </section>
 
-// Pesquisa e apresenta as atividades em ordem alfabética.
-function renderAllocation() {
-  const input = $("allocation-search");
-  const resultsRoot = $("allocation-results");
-  const status = $("allocation-status");
+          <section class="guide-section">
+            <h3>2. Horácio e Banco de Horas</h3>
+            <p>O Horácio e o controle de Banco de Horas são instrumentos independentes e possuem finalidades distintas.</p>
+            <div class="guide-subsection">
+              <h4>Horácio</h4>
+              <ul><li>Registrar as horas efetivamente trabalhadas em projetos.</li><li>Identificar as atividades realizadas e sua distribuição ao longo do período.</li></ul>
+              <h4>Banco de Horas</h4>
+              <ul><li>Controlar as horas extras, compensações e saldos.</li><li>Registrar os ajustes e as movimentações conforme o procedimento estabelecido pelo PMO.</li></ul>
+            </div>
+            <p>Portanto, quando um colaborador trabalhar em um projeto utilizando horas que serão destinadas à compensação de saldo negativo, essas horas também deverão ser registradas normalmente no Horácio.</p>
+          </section>
 
-  if (!input || !resultsRoot || !status) return;
+          <section class="guide-section">
+            <h3>3. Inclusão de colaboradores nos projetos</h3>
+            <p>A inclusão de colaboradores nos projetos é realizada, normalmente, pelo Gerente do Projeto (GP).</p>
+            <p>No caso dos projetos vinculados à GMMB, o PMO da gerência também realiza a gestão operacional das alocações na plataforma, incluindo colaboradores que ainda não estejam habilitados para realizar os lançamentos.</p>
+            <p>Quando um projeto da GMMB não estiver disponível para determinado colaborador, ou quando houver impedimento para registrar as horas, a situação deverá ser encaminhada ao PMO da GMMB para verificação.</p>
+            <p>Para projetos vinculados a outras gerências, o contato deverá ser direcionado ao respectivo GP.</p>
+          </section>
 
-  const query = normalizeAllocation(input.value);
+          <section class="guide-section">
+            <h3>4. Alocação de horas e descrição das atividades</h3>
+            <p>Os lançamentos devem corresponder às atividades efetivamente realizadas pelo colaborador.</p>
+            <p>Ao utilizar atividades globais, é importante que a descrição permita identificar o trabalho executado, evitando registros genéricos que não esclareçam a natureza da atividade.</p>
+            <p>Sempre que pertinente, a descrição deve informar:</p>
+            <ul><li>O que foi realizado;</li><li>Qual assunto ou atividade foi tratado;</li><li>A finalidade do trabalho;</li><li>Com quem ou para quem a atividade foi realizada, quando aplicável.</li></ul>
 
-  resultsRoot.replaceChildren();
+            <div class="guide-subsection">
+              <h4>4.1. Alocação excedente</h4>
+              <p>A indicação de “Alocação excedente” pode estar relacionada à configuração das alocações no sistema.</p>
+              <p>Caso essa indicação impeça ou gere dúvidas durante o lançamento, o colaborador deverá encaminhar ao PMO da GMMB o nome do projeto, a atividade e, preferencialmente, uma captura de tela para verificação.</p>
+            </div>
+            <div class="guide-subsection">
+              <h4>4.2. Exceção permitida</h4>
+              <p>A indicação “Exceção permitida” representa uma flexibilização autorizada pelo gestor em relação ao limite de alocação configurado.</p>
+              <p>Nessa situação, o lançamento poderá ser realizado conforme a autorização concedida.</p>
+            </div>
+          </section>
 
-  const entries = [];
+          <section class="guide-section">
+            <h3>5. Atividades globais e reuniões</h3>
+            <p>As atividades globais devem ser utilizadas para registrar trabalhos que não estejam diretamente vinculados a uma atividade específica de projeto, conforme as opções disponíveis no Horácio.</p>
+            <p>É importante selecionar a atividade que melhor corresponda ao trabalho realizado e preencher a descrição de forma objetiva.</p>
+          </section>
 
-  ALLOCATION_ACTIVITIES.forEach(activity => {
-    activity.tasks.forEach(task => {
-      const aliases = task.aliases || [];
+          <section class="guide-section">
+            <h3>6. Sábados com carga horária compensada</h3>
+            <p>Para colaboradores cujo contrato prevê atuação aos sábados, mas cuja carga horária é compensada de segunda a quinta-feira, deve ser utilizado o registro “Atividade Global – Indisponível” nos sábados correspondentes.</p>
+            <p><strong>Descrição sugerida:</strong></p>
+            <blockquote>“Sem atividades, com carga horária compensada de segunda a quinta-feira.”</blockquote>
+            <p>Essa orientação se aplica à situação contratual descrita e não deve ser interpretada como uma regra geral para todos os colaboradores aos sábados.</p>
+          </section>
 
-      let displayName = task.name;
+          <section class="guide-section">
+            <h3>7. Consulta aos lançamentos</h3>
+            <p>Para consultar os lançamentos realizados, o colaborador deverá acessar:</p>
+            <p><strong>Minha fila de lançamentos → Folha Semanal</strong></p>
+            <p>Essa visualização permite acompanhar os registros por período.</p>
+            <p>Em situações nas quais houver divergência entre as informações apresentadas em diferentes visualizações da plataforma, recomenda-se consultar também a “Folha Semanal” antes de concluir que determinado lançamento não foi registrado ou foi perdido.</p>
+            <p>Caso a inconsistência permaneça, a situação deverá ser encaminhada ao PMO da GMMB para verificação.</p>
+          </section>
 
-      if (query) {
-        const matchingAlias = aliases.find(alias =>
-          allocationMatches(alias, query)
-        );
+          <section class="guide-section">
+            <h3>8. Problemas de acesso e lançamentos pendentes</h3>
+            <p>Quando houver impedimento de acesso à plataforma que impossibilite a realização dos lançamentos, o colaborador deverá comunicar o problema ao PMO da GMMB.</p>
+            <p>Durante situações específicas de indisponibilidade ou dificuldade de acesso, já foi orientada a utilização temporária do modelo anterior em Excel, como alternativa para não deixar de registrar as horas trabalhadas.</p>
+            <p>Essa medida foi tratada como procedimento excepcional, e não como substituição permanente do Horácio.</p>
+            <p>A regularização de lançamentos pendentes deverá ser alinhada com o PMO, considerando a situação de acesso e as orientações aplicáveis ao caso.</p>
+          </section>
 
-        if (matchingAlias) {
-          displayName = matchingAlias;
-        }
-      }
+          <section class="guide-section">
+            <h3>9. Comunicação de dúvidas e problemas</h3>
+            <p>O grupo GMMB_Horácio é o canal utilizado para compartilhar dúvidas, dificuldades de utilização, inconsistências e sugestões relacionadas à plataforma.</p>
+            <p>Antes de encaminhar uma nova dúvida, recomenda-se consultar este material e verificar se a situação já foi discutida e respondida anteriormente.</p>
+            <p>Quando houver necessidade de intervenção ou verificação pelo PMO, a solicitação deverá apresentar, sempre que possível:</p>
+            <ul><li>Projeto envolvido;</li><li>Atividade selecionada;</li><li>Data do lançamento;</li><li>Descrição do problema;</li><li>Mensagem de erro apresentada;</li><li>Captura de tela da situação.</li></ul>
+            <p>A identificação dessas informações facilita a análise e o encaminhamento da demanda.</p>
+          </section>
+        </article>
+      </section>
 
-      const searchable = [
-        task.name,
-        ...aliases,
-        activity.name
-      ].join(" ");
+      <section id="allocation-guide" class="allocation-guide" hidden>
+        <div class="guide-heading">
+          <div class="eyebrow dark">CONSULTA OPERACIONAL</div>
+          <h2>Onde devo alocar minhas atividades?</h2>
+          <p>Encontre o nome da atividade na lista e clique nela para descobrir exatamente onde alocar suas horas no Horácio.</p>
+        </div>
+        <div class="allocation-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="allocation-search" type="search" placeholder="Pesquise: relatório, reunião, pitstop técnico..." aria-label="Pesquisar atividade para alocação" autocomplete="off">
+        </div>
+        <p class="allocation-hint">Digite para filtrar a lista. Depois, clique no nome da atividade para visualizar a alocação correta.</p>
+        <div id="allocation-status" class="allocation-status" aria-live="polite">Todas as categorias · Ordem alfabética</div>
+        <div id="allocation-results" class="allocation-results" aria-live="polite"></div>
+        <div class="allocation-note"><strong>Importante:</strong> a alocação deve refletir a atividade efetivamente realizada. Em caso de dúvida, valide com o responsável pelo projeto.</div>
+      </section>
 
-      if (!query || allocationMatches(searchable, query)) {
-        entries.push({
-          activity,
-          task,
-          displayName
-        });
-      }
-    });
-  });
+      <section id="detail" hidden>
 
-  // Ordem alfabética dos resultados.
-  entries.sort((a, b) =>
-    allocationCollator.compare(a.displayName, b.displayName)
-  );
+        <button class="back" id="back">
+          ← Voltar para as perguntas
+        </button>
 
-  status.textContent = query
-    ? `${entries.length} atividade(s) encontrada(s)`
-    : `${entries.length} atividades disponíveis · Clique para consultar a alocação`;
+        <div class="detailcard">
 
-  if (!entries.length) {
-    const empty = document.createElement("div");
-    empty.className = "allocation-empty";
-    empty.textContent = "Nenhuma atividade encontrada. Tente outra palavra-chave.";
-    resultsRoot.appendChild(empty);
-    return;
-  }
+          <div class="detailmeta" id="detailmeta"></div>
 
-  const list = document.createElement("div");
-  list.className = "allocation-activity-list";
+          <h1 id="detailtitle"></h1>
 
-  const detail = document.createElement("section");
-  detail.className = "allocation-detail";
-  detail.setAttribute("aria-live", "polite");
-  detail.hidden = true;
+          <div id="detailbody" class="answer"></div>
 
-  const buttons = [];
+          <div id="resources"></div>
 
-  entries.forEach(match => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "allocation-activity-button";
-    button.setAttribute("aria-expanded", "false");
+          <div class="detailfooter" id="detailfooter"></div>
 
-    const name = document.createElement("span");
-    name.className = "allocation-activity-name";
-    name.textContent = match.displayName;
+        </div>
 
-    const hint = document.createElement("span");
-    hint.className = "allocation-activity-hint";
-    hint.textContent = "Ver alocação →";
+        <div class="feedback">
+          Não encontrou o que procurava? Entre em contato com o responsável pelo processo.
+        </div>
 
-    button.append(name, hint);
+      </section>
 
-    button.addEventListener("click", () => {
-      showAllocationDetail(match, button, list, detail);
-    });
+    </div>
 
-    buttons.push({ button, match });
-    list.appendChild(button);
-  });
+  </main>
 
-  resultsRoot.append(list, detail);
+  <footer>
+    <div class="wrap footerrow">
+      <span>Horácio · Guia de Orientações</span>
+      <span>Informações sujeitas a atualização</span>
+    </div>
+  </footer>
 
-  // Se a pesquisa encontrar somente uma atividade,
-  // a alocação será exibida automaticamente.
-  if (query && entries.length === 1) {
-    showAllocationDetail(
-      entries[0],
-      buttons[0].button,
-      list,
-      detail
-    );
-  }
-}
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
