@@ -26,89 +26,273 @@ const norm = s =>
     .trim();
 
 
-// Base de consulta de alocação do Horácio.
+// ======================================================
+// BASE DE CONSULTA DE ALOCAÇÃO
+// ======================================================
+
 const ALLOCATION_ACTIVITIES = [
-  {name:"Atividade de Campo / Visita Técnica",description:"Atividades destinadas ao planejamento, mobilização, execução e gestão das atividades de campo, incluindo logística, materiais, equipamentos, serviços, equipes e recursos, com acompanhamento do cronograma, da qualidade, das ocorrências e dos ajustes necessários.",tasks:[
-    {name:"Execução dos campos",aliases:["trabalho de campo","execução de campo","visita técnica"]},
-    {name:"Gestão das atividades de Campo",aliases:["gestão de campo","acompanhamento de campo"]},
-    {name:"Preparação – Logística, Compras e Auxiliares de Campo",aliases:["logística de campo","compras para campo","auxiliares de campo","preparação de campo","mobilização de campo"]}
-  ]},
-  {name:"Atividade Global",description:"Atividades de caráter corporativo e interno, não vinculadas diretamente à execução de projetos específicos, incluindo rotinas administrativas, desenvolvimento de negócios e sistemas, propostas e orçamentos, gestão de pessoas, planejamento interno, inovação, qualidade, ações de SSO/SSMA e treinamentos.",tasks:[
-    {name:"Administrativo Interno",aliases:["administrativo","rotinas administrativas"]},
-    {name:"Café dos Aniversariantes",allocation:"SSO / SSMA Interno",aliases:["café aniversariantes","cafe dos aniversariantes","cafe aniversariantes"]},
-    {name:"Desenvolvimento de Negócios / Comercial",aliases:["comercial","desenvolvimento comercial","novos negócios"]},
-    {name:"Desenvolvimento de Sistemas",aliases:["sistemas","desenvolvimento de sistema"]},
-    {name:"Disponibilidade / Sem Alocação",aliases:["disponibilidade","sem alocação"]},
-    {name:"Gestão de Pessoas",aliases:["recursos humanos","rh","gestão de equipe"]},
-    {name:"Gestão e Planejamento Interno",aliases:["planejamento interno","gestão interna"]},
-    {name:"Indisponível",aliases:["feriado","sábado com horas compensadas","sabado com horas compensadas","sábado compensado","sabado compensado"]},
-    {name:"Inovação e Desenvolvimento Técnico",aliases:["inovação","inovacao","desenvolvimento técnico interno"]},
-    {name:"Propostas e Orçamentos",aliases:["proposta","orçamento","orcamento","elaboração de orçamento"]},
-    {name:"Qualidade, Processos e Melhoria Contínua",aliases:["qualidade interna","processos","melhoria contínua","melhoria continua"]},
-    {name:"SSO / SSMA Interno",aliases:["sso interno","ssma interno","segurança do trabalho interno"]},
-    {name:"Treinamento e Desenvolvimento",aliases:["treinamento","desenvolvimento de pessoas","pitstop técnico","pitstop tecnico","pit stop técnico","pit stop tecnico","pitstop","pit stop"]}
-  ]},
-  {name:"Entrega – Embalar o Produto",description:"Atividades destinadas à preparação e finalização dos produtos para entrega, incluindo formatação e padronização de documentos, produção de elementos gráficos e atendimento aos comentários, com revisão, correção e atualização dos arquivos.",tasks:[
-    {name:"Atendimento de Comentários – Retrabalho",aliases:["atendimento de comentários","atendimento de comentarios","retrabalho","ajustes solicitados","correção de comentários"]},
-    {name:"Computação Gráfica",aliases:["computação gráfica","computacao grafica","artes gráficas","artes graficas","elementos gráficos"]},
-    {name:"Editoração",aliases:["diagramação","diagramacao","formatação de documentos","formatacao de documentos"]}
-  ]},
-  {name:"Gestão / Coordenação do Projeto",description:"Atividades destinadas ao planejamento, coordenação e controle do projeto, abrangendo estratégias e responsabilidades, contratações e gestão de terceiros, acompanhamento de prazos, custos e riscos, requisitos de SSMA, alinhamento com as partes interessadas e realização de reuniões e workshops.",tasks:[
-    {name:"Contratações de Terceiros",aliases:["contratação de terceiros","contratacao de terceiros","fornecedores"]},
-    {name:"Gerenciamento e Planejamento do Projeto",aliases:["gerenciamento do projeto","planejamento do projeto","gestão do projeto"]},
-    {name:"Planejamento & Controle",aliases:["planejamento e controle","controle do projeto","controle de prazos","controle de custos"]},
-    {name:"Reuniões Externas",aliases:["reunião externa","reuniao externa","reunião com cliente","reuniao com cliente"]},
-    {name:"Reuniões Internas",aliases:["reunião interna","reuniao interna","alinhamento interno"]},
-    {name:"SSMA / SSO",aliases:["ssma","sso"]},
-    {name:"Workshop",aliases:["oficina de trabalho"]}
-  ]},
-  {name:"Produção Técnica",description:"Atividades destinadas à execução e controle de qualidade das atividades técnicas do projeto, incluindo pesquisa, tratamento e análise de dados, estudos, modelagens, desenvolvimento de soluções e produtos, elaboração e revisão de documentos e produção de informações geoespaciais.",tasks:[
-    {name:"Elaboração de Relatórios / Produtos / Análise / Desenvolvimento Técnico",aliases:["relatório","relatorio","relatório técnico","relatorio tecnico","elaboração de relatório","elaboracao de relatorio","análise técnica","analise tecnica","desenvolvimento técnico","estudos"]},
-    {name:"Geoprocessamento",aliases:["mapas","mapeamento","informações geoespaciais","informacoes geoespaciais","dados geográficos","dados geograficos"]},
-    {name:"Revisão / Controle de Qualidade",aliases:["revisão","revisao","revisão de documento","revisao de documento","controle de qualidade","revisão técnica"]}
-  ]}
+  {
+    name: "Atividade de Campo / Visita Técnica",
+    description: "Atividades destinadas ao planejamento, mobilização, execução e gestão das atividades de campo, incluindo logística, materiais, equipamentos, serviços, equipes e recursos, com acompanhamento do cronograma, da qualidade, das ocorrências e dos ajustes necessários.",
+    tasks: [
+      {
+        name: "Execução dos campos",
+        aliases: ["trabalho de campo", "execução de campo", "visita técnica"]
+      },
+      {
+        name: "Gestão das atividades de Campo",
+        aliases: ["gestão de campo", "acompanhamento de campo"]
+      },
+      {
+        name: "Preparação – Logística, Compras e Auxiliares de Campo",
+        aliases: ["logística de campo", "compras para campo", "auxiliares de campo", "preparação de campo", "mobilização de campo"]
+      }
+    ]
+  },
+
+  {
+    name: "Atividade Global",
+    description: "Atividades de caráter corporativo e interno, não vinculadas diretamente à execução de projetos específicos, incluindo rotinas administrativas, desenvolvimento de negócios e sistemas, propostas e orçamentos, gestão de pessoas, planejamento interno, inovação, qualidade, ações de SSO/SSMA e treinamentos.",
+    tasks: [
+      {
+        name: "Administrativo Interno",
+        aliases: ["administrativo", "rotinas administrativas"]
+      },
+      {
+        name: "Café dos Aniversariantes",
+        allocation: "SSO / SSMA Interno",
+        aliases: ["café aniversariantes", "cafe dos aniversariantes", "cafe aniversariantes"]
+      },
+      {
+        name: "Desenvolvimento de Negócios / Comercial",
+        aliases: ["comercial", "desenvolvimento comercial", "novos negócios"]
+      },
+      {
+        name: "Desenvolvimento de Sistemas",
+        aliases: ["sistemas", "desenvolvimento de sistema"]
+      },
+      {
+        name: "Disponibilidade / Sem Alocação",
+        aliases: ["disponibilidade", "sem alocação"]
+      },
+      {
+        name: "Feriados e folgas",
+        allocation: "Indisponível",
+        aliases: ["feriado", "feriados", "folga", "folgas"]
+      },
+      {
+        name: "Compensação de sábado",
+        allocation: "Indisponível",
+        aliases: [
+          "sábado compensado",
+          "sabado compensado",
+          "compensação do sábado",
+          "compensacao do sabado",
+          "sábado com horas compensadas",
+          "sabado com horas compensadas"
+        ]
+      },
+      {
+        name: "Gestão de Pessoas",
+        aliases: ["recursos humanos", "rh", "gestão de equipe"]
+      },
+      {
+        name: "Gestão e Planejamento Interno",
+        aliases: ["planejamento interno", "gestão interna"]
+      },
+      {
+        name: "Reuniões da gerência",
+        allocation: "Gestão e Planejamento Interno",
+        aliases: [
+          "reunião da gerência",
+          "reuniao da gerencia",
+          "reuniões gerenciais",
+          "reunioes gerenciais"
+        ]
+      },
+      {
+        name: "Indisponível",
+        aliases: ["indisponibilidade"]
+      },
+      {
+        name: "Inovação e Desenvolvimento Técnico",
+        aliases: ["inovação", "inovacao", "desenvolvimento técnico interno"]
+      },
+      {
+        name: "Propostas e Orçamentos",
+        aliases: [
+          "proposta",
+          "propostas comerciais",
+          "proposta comercial",
+          "orçamento",
+          "orcamento",
+          "elaboração de orçamento"
+        ]
+      },
+      {
+        name: "Qualidade, Processos e Melhoria Contínua",
+        aliases: ["qualidade interna", "processos", "melhoria contínua", "melhoria continua"]
+      },
+      {
+        name: "SSO / SSMA Interno",
+        aliases: ["sso interno", "ssma interno", "segurança do trabalho interno"]
+      },
+      {
+        name: "Pitstop Técnico",
+        allocation: "Treinamento e Desenvolvimento",
+        aliases: ["pitstop", "pit stop", "pitstop tecnico", "pit stop tecnico"]
+      },
+      {
+        name: "Treinamento e Desenvolvimento",
+        aliases: ["treinamento", "desenvolvimento de pessoas"]
+      }
+    ]
+  },
+
+  {
+    name: "Entrega – Embalar o Produto",
+    description: "Atividades destinadas à preparação e finalização dos produtos para entrega, incluindo formatação e padronização de documentos, produção de elementos gráficos e atendimento aos comentários, com revisão, correção e atualização dos arquivos.",
+    tasks: [
+      {
+        name: "Atendimento de Comentários – Retrabalho",
+        aliases: ["atendimento de comentários", "atendimento de comentarios", "retrabalho", "ajustes solicitados", "correção de comentários"]
+      },
+      {
+        name: "Computação Gráfica",
+        aliases: ["computação gráfica", "computacao grafica", "artes gráficas", "artes graficas", "elementos gráficos"]
+      },
+      {
+        name: "Editoração",
+        aliases: ["diagramação", "diagramacao", "formatação de documentos", "formatacao de documentos"]
+      }
+    ]
+  },
+
+  {
+    name: "Gestão / Coordenação do Projeto",
+    description: "Atividades destinadas ao planejamento, coordenação e controle do projeto, abrangendo estratégias e responsabilidades, contratações e gestão de terceiros, acompanhamento de prazos, custos e riscos, requisitos de SSMA, alinhamento com as partes interessadas e realização de reuniões e workshops.",
+    tasks: [
+      {
+        name: "Contratações de Terceiros",
+        aliases: ["contratação de terceiros", "contratacao de terceiros", "fornecedores"]
+      },
+      {
+        name: "Gerenciamento e Planejamento do Projeto",
+        aliases: ["gerenciamento do projeto", "planejamento do projeto", "gestão do projeto"]
+      },
+      {
+        name: "Planejamento & Controle",
+        aliases: ["planejamento e controle", "controle do projeto", "controle de prazos", "controle de custos"]
+      },
+      {
+        name: "Reuniões Externas",
+        aliases: ["reunião externa", "reuniao externa", "reunião com cliente", "reuniao com cliente"]
+      },
+      {
+        name: "Reuniões Internas",
+        aliases: ["reunião interna", "reuniao interna", "alinhamento interno"]
+      },
+      {
+        name: "SSMA / SSO",
+        aliases: ["ssma", "sso"]
+      },
+      {
+        name: "Workshop",
+        aliases: ["oficina de trabalho"]
+      }
+    ]
+  },
+
+  {
+    name: "Produção Técnica",
+    description: "Atividades destinadas à execução e controle de qualidade das atividades técnicas do projeto, incluindo pesquisa, tratamento e análise de dados, estudos, modelagens, desenvolvimento de soluções e produtos, elaboração e revisão de documentos e produção de informações geoespaciais.",
+    tasks: [
+      {
+        name: "Elaboração de Relatórios / Produtos / Análise / Desenvolvimento Técnico",
+        aliases: [
+          "relatório",
+          "relatorio",
+          "relatório técnico",
+          "relatorio tecnico",
+          "elaboração de relatório",
+          "elaboracao de relatorio",
+          "análise técnica",
+          "analise tecnica",
+          "desenvolvimento técnico",
+          "estudos"
+        ]
+      },
+      {
+        name: "Geoprocessamento",
+        aliases: ["mapas", "mapeamento", "informações geoespaciais", "informacoes geoespaciais", "dados geográficos", "dados geograficos"]
+      },
+      {
+        name: "Revisão / Controle de Qualidade",
+        aliases: ["revisão", "revisao", "revisão de documento", "revisao de documento", "controle de qualidade", "revisão técnica"]
+      }
+    ]
+  }
 ];
 
+
+// ======================================================
+// NORMALIZAÇÃO E PESQUISA DE ALOCAÇÃO
+// ======================================================
+
 function normalizeAllocation(value) {
-  return String(value || "").normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "").toLowerCase()
-    .replace(/[–—-]/g, " ").replace(/[^\w\s]/g, " ")
-    .replace(/\s+/g, " ").trim();
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[–—-]/g, " ")
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
 
 function renderAllocation() {
   const input = $("allocation-search");
   const resultsRoot = $("allocation-results");
   const status = $("allocation-status");
+
   if (!input || !resultsRoot || !status) return;
 
   const query = normalizeAllocation(input.value);
+
   resultsRoot.replaceChildren();
 
-  // Cada opção da lista representa uma atividade que o usuário pode selecionar.
+  // Cada opção da lista representa uma atividade selecionável.
   const entries = [];
+
   ALLOCATION_ACTIVITIES.forEach(activity => {
     activity.tasks.forEach(task => {
       entries.push({ activity, task });
     });
   });
 
-  let matches = entries.filter(({ activity, task }) => {
+  const matches = entries.filter(({ activity, task }) => {
     const taskText = normalizeAllocation(task.name);
     const categoryText = normalizeAllocation(activity.name);
     const aliases = (task.aliases || []).map(normalizeAllocation);
-    return !query || taskText.includes(query) || categoryText.includes(query) ||
-      aliases.some(alias => alias.includes(query));
+
+    return (
+      !query ||
+      taskText.includes(query) ||
+      categoryText.includes(query) ||
+      aliases.some(alias => alias.includes(query))
+    );
   });
 
   status.textContent = query
     ? `${matches.length} atividade(s) encontrada(s) · Clique para ver onde alocar`
-    : ` ${matches.length} atividades disponíveis · Clique em uma atividade para consultar a alocação`;
+    : `${matches.length} atividades disponíveis · Clique em uma atividade para consultar a alocação`;
 
   if (!matches.length) {
     const empty = document.createElement("div");
     empty.className = "allocation-empty";
     empty.textContent = "Nenhuma atividade encontrada. Tente outra palavra-chave.";
+
     resultsRoot.appendChild(empty);
     return;
   }
@@ -121,8 +305,9 @@ function renderAllocation() {
   detail.setAttribute("aria-live", "polite");
   detail.hidden = true;
 
-  matches.forEach(({ activity, task }, index) => {
+  matches.forEach(({ activity, task }) => {
     const button = document.createElement("button");
+
     button.type = "button";
     button.className = "allocation-activity-button";
     button.setAttribute("aria-expanded", "false");
@@ -136,15 +321,18 @@ function renderAllocation() {
     hint.textContent = "Ver alocação →";
 
     button.append(name, hint);
+
     button.addEventListener("click", () => {
       list.querySelectorAll(".allocation-activity-button").forEach(item => {
         item.classList.remove("selected");
         item.setAttribute("aria-expanded", "false");
       });
+
       button.classList.add("selected");
       button.setAttribute("aria-expanded", "true");
 
       detail.replaceChildren();
+
       const label = document.createElement("div");
       label.className = "allocation-detail-label";
       label.textContent = "ALOCAÇÃO CORRETA";
@@ -154,13 +342,17 @@ function renderAllocation() {
 
       const path = document.createElement("div");
       path.className = "allocation-path";
+
       const category = document.createElement("span");
       category.textContent = activity.name;
+
       const arrow = document.createElement("span");
       arrow.className = "allocation-path-arrow";
       arrow.textContent = "→";
+
       const destination = document.createElement("strong");
       destination.textContent = task.allocation || task.name;
+
       path.append(category, arrow, destination);
 
       const description = document.createElement("p");
@@ -168,13 +360,23 @@ function renderAllocation() {
 
       detail.append(label, title, path, description);
       detail.hidden = false;
-      detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      detail.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
     });
+
     list.appendChild(button);
   });
 
   resultsRoot.append(list, detail);
 }
+
+
+// ======================================================
+// BASE DE PERGUNTAS FREQUENTES
+// ======================================================
 
 function clean(raw, i) {
   return {
@@ -188,6 +390,7 @@ function clean(raw, i) {
   };
 }
 
+
 // Remove Recursos Humanos somente da navegação.
 // As perguntas continuam preservadas na base.
 function cats() {
@@ -199,9 +402,11 @@ function cats() {
   ].filter(c => norm(c) !== norm('Recursos Humanos'));
 }
 
+
 function count(c) {
   return records.filter(r => r.categoria === c).length;
 }
+
 
 function renderCats() {
   const root = $('categories');
@@ -228,6 +433,7 @@ function renderCats() {
   });
 }
 
+
 function renderFilters() {
   const root = $('filters');
   root.replaceChildren();
@@ -247,6 +453,7 @@ function renderFilters() {
   });
 }
 
+
 function select(c) {
   category = c;
   render();
@@ -260,6 +467,7 @@ function select(c) {
     block: 'start'
   });
 }
+
 
 function render() {
   renderFilters();
@@ -331,6 +539,11 @@ function render() {
   });
 }
 
+
+// ======================================================
+// EXIBIÇÃO DAS RESPOSTAS
+// ======================================================
+
 function safeUrl(value) {
   try {
     const u = new URL(value, location.href);
@@ -342,6 +555,7 @@ function safeUrl(value) {
     return null;
   }
 }
+
 
 function answerNodes(text) {
   const root = $('detailbody');
@@ -390,6 +604,7 @@ function answerNodes(text) {
   });
 }
 
+
 function openQuestion(id) {
   const r = records.find(
     x => String(x.id) === String(id)
@@ -411,6 +626,7 @@ function openQuestion(id) {
   $('gmmb-guide').hidden = true;
   $('allocation-guide').hidden = true;
   $('detail').hidden = false;
+
   setActiveTab('faq');
 
   $('detailmeta').textContent = r.categoria;
@@ -459,62 +675,97 @@ function openQuestion(id) {
   window.scrollTo(0, 0);
 }
 
+
+// ======================================================
+// NAVEGAÇÃO ENTRE AS SEÇÕES
+// ======================================================
+
 function setActiveTab(tab) {
   $('tab-faq').classList.toggle('active', tab === 'faq');
   $('tab-gmmb').classList.toggle('active', tab === 'gmmb');
   $('tab-alocacao').classList.toggle('active', tab === 'alocacao');
-  document.body.classList.toggle('gmmb-active', tab === 'gmmb');
+
+  document.body.classList.toggle(
+    'gmmb-active',
+    tab === 'gmmb'
+  );
 }
+
 
 function showHome() {
   $('home').hidden = false;
   $('detail').hidden = true;
   $('gmmb-guide').hidden = true;
   $('allocation-guide').hidden = true;
+
   setActiveTab('faq');
 }
+
 
 function showGmmbGuide() {
   $('home').hidden = true;
   $('detail').hidden = true;
   $('gmmb-guide').hidden = false;
   $('allocation-guide').hidden = true;
+
   setActiveTab('gmmb');
+
   window.scrollTo(0, 0);
 }
+
 
 function showAllocationGuide() {
   $('home').hidden = true;
   $('detail').hidden = true;
   $('gmmb-guide').hidden = true;
   $('allocation-guide').hidden = false;
+
   setActiveTab('alocacao');
+
   renderAllocation();
+
   window.scrollTo(0, 0);
 }
 
+
 function route() {
   const hash = location.hash || '#inicio';
+
   if (hash === '#gmmb') {
     showGmmbGuide();
     return;
   }
+
   if (hash === '#alocacao') {
     showAllocationGuide();
     return;
   }
+
   if (hash.startsWith('#duvida/')) {
-    const id = decodeURIComponent(hash.substring('#duvida/'.length));
+    const id = decodeURIComponent(
+      hash.substring('#duvida/'.length)
+    );
+
     openQuestion(id);
     return;
   }
+
   showHome();
+
   if (hash === '#perguntas') {
     setTimeout(() => {
-      $('listtitle').scrollIntoView({behavior:'smooth',block:'start'});
+      $('listtitle').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }, 50);
   }
 }
+
+
+// ======================================================
+// LEITURA DE ARQUIVO CSV
+// ======================================================
 
 function csvParse(csv) {
   const rows = [];
@@ -571,6 +822,11 @@ function csvParse(csv) {
     )
   );
 }
+
+
+// ======================================================
+// CARREGAMENTO DA BASE DE PERGUNTAS
+// ======================================================
 
 async function init() {
   try {
@@ -650,7 +906,11 @@ async function init() {
   }
 }
 
-// Sugestões automáticas de perguntas
+
+// ======================================================
+// SUGESTÕES AUTOMÁTICAS DE PERGUNTAS
+// ======================================================
+
 const searchInput = $('search');
 const searchBox = searchInput.closest('.search');
 
@@ -661,6 +921,7 @@ suggestionBox.setAttribute('role', 'listbox');
 suggestionBox.hidden = true;
 
 searchBox.appendChild(suggestionBox);
+
 
 function renderSuggestions(value) {
   suggestionBox.replaceChildren();
@@ -683,7 +944,9 @@ function renderSuggestions(value) {
         r.categoria
       ].join(' '));
 
-      return words.every(word => searchable.includes(word));
+      return words.every(word =>
+        searchable.includes(word)
+      );
     })
     .slice(0, 6);
 
@@ -712,7 +975,8 @@ function renderSuggestions(value) {
       term = r.pergunta;
       category = 'Todas';
 
-      location.hash = 'duvida/' + encodeURIComponent(r.id);
+      location.hash =
+        'duvida/' + encodeURIComponent(r.id);
     });
 
     suggestionBox.append(button);
@@ -721,7 +985,12 @@ function renderSuggestions(value) {
   suggestionBox.hidden = false;
 }
 
-// Pesquisa
+
+// ======================================================
+// EVENTOS DE PESQUISA E NAVEGAÇÃO
+// ======================================================
+
+// Pesquisa da Central de Dúvidas
 searchInput.addEventListener('input', e => {
   term = e.target.value;
   category = 'Todas';
@@ -738,17 +1007,31 @@ searchInput.addEventListener('input', e => {
   }
 });
 
+
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     suggestionBox.hidden = true;
   }
 });
 
+
 document.addEventListener('click', e => {
   if (!searchBox.contains(e.target)) {
     suggestionBox.hidden = true;
   }
 });
+
+
+// Pesquisa da Consulta de Alocação
+const allocationSearchInput = $('allocation-search');
+
+if (allocationSearchInput) {
+  allocationSearchInput.addEventListener(
+    'input',
+    renderAllocation
+  );
+}
+
 
 // Navegação
 $('all').onclick = () => select('Todas');
@@ -757,13 +1040,12 @@ $('back').onclick = () => {
   location.hash = 'perguntas';
 };
 
-const allocationSearchInput = $('allocation-search');
-if (allocationSearchInput) {
-  allocationSearchInput.addEventListener('input', renderAllocation);
-}
 
+// Mudança de rota
 window.addEventListener('hashchange', route);
 
+
+// Atalho de teclado para pesquisa
 window.addEventListener('keydown', e => {
   if (
     e.key === '/' &&
@@ -776,4 +1058,6 @@ window.addEventListener('keydown', e => {
   }
 });
 
+
+// Inicialização
 init();
