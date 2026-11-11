@@ -178,3 +178,50 @@ body.gmmb-active .search,body.gmmb-active .hero-foot{display:none}
   .navtab{padding:8px 10px;font-size:12px}
   .guide-content{padding:20px}
 }
+
+
+/* Consulta de alocação */
+.allocation-guide { padding: 8px 0 36px; }
+.allocation-guide .guide-heading { margin-bottom: 24px; }
+.allocation-search {
+  display:flex; align-items:center; gap:12px;
+  background:#fff; border:1px solid var(--line, #e3e9f0);
+  border-radius:12px; padding:13px 16px;
+  box-shadow:0 3px 12px rgba(20,35,55,.04);
+}
+.allocation-search > span { font-size:22px; color:#64748b; }
+.allocation-search input {
+  width:100%; border:0; outline:0; background:transparent;
+  color:inherit; font:inherit; font-size:15px; min-width:0;
+}
+.allocation-search input::placeholder { color:#9aa6b5; }
+.allocation-hint { color:#64748b; font-size:12px; line-height:1.6; margin:10px 2px 20px; }
+.allocation-status { color:#64748b; font-size:12px; margin:0 2px 12px; }
+.allocation-results { display:grid; gap:12px; }
+.allocation-card {
+  background:#fff; border:1px solid var(--line, #e3e9f0);
+  border-radius:12px; padding:20px;
+}
+.allocation-card-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:9px; }
+.allocation-kicker { color:#234d88; font-size:10px; font-weight:800; letter-spacing:1.1px; text-transform:uppercase; }
+.allocation-match-tag { background:#eaf5ef; color:#18794e; border-radius:20px; padding:5px 9px; font-size:10px; font-weight:700; }
+.allocation-card h3 { font-size:18px; line-height:1.4; margin:0 0 9px; }
+.allocation-description { color:#64748b; font-size:13px; line-height:1.65; margin:0 0 16px; }
+.allocation-task-heading { color:#64748b; font-size:10px; font-weight:800; letter-spacing:1px; margin:15px 0 8px; }
+.allocation-task-list { display:grid; gap:7px; }
+.allocation-task {
+  display:flex; align-items:flex-start; gap:9px;
+  background:#f6f8fb; border:1px solid transparent;
+  border-radius:8px; padding:11px 12px; font-size:13px; line-height:1.5;
+}
+.allocation-task.is-match { background:#edf3fa; border-color:#c8d8ec; font-weight:700; }
+.allocation-task .check { color:#234d88; font-weight:800; }
+.allocation-empty { background:#fff; border:1px solid var(--line, #e3e9f0); border-radius:12px; padding:28px; text-align:center; }
+.allocation-empty strong { display:block; margin-bottom:7px; }
+.allocation-empty p { color:#64748b; font-size:13px; line-height:1.6; margin:0; }
+.allocation-note { border-top:1px solid var(--line, #e3e9f0); margin-top:25px; padding-top:17px; color:#64748b; font-size:12px; line-height:1.65; }
+@media(max-width:760px) {
+  .navright { flex-wrap:wrap; gap:8px; }
+  .allocation-card { padding:16px; }
+  .allocation-card-top { align-items:flex-start; }
+}
